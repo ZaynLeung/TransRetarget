@@ -64,7 +64,7 @@ def hand_loss(predicted_angle, source_3D, rb_dic, source_dic, pos_loss_function,
     loss_1 = vec_inter_loss(global_positions, source_3D, pos_loss_function, rb_dic, source_dic) * loss_weight[0]
     loss_2 = tip_pos_loss(global_positions, source_3D, pos_loss_function, rb_dic, source_dic) * loss_weight[1]
     
-    if loss_weight[2] > 0:
+    if loss_weight[2] > 0 and col_loss_function is not None:
         loss_3 = col_loss_function(global_positions) * loss_weight[2]
     else:
         loss_3 = torch.tensor(0.0, device=device)

@@ -278,7 +278,7 @@ def main():
             '''
 
         epoch += 1
-        print('epoch:', epoch)
+        print('epoch:', epoch, 'loss:', loss_total.item(), 'loss_3d_vec:', loss_3d_vec.item(), 'loss_3d_pos:', loss_3d_pos.item(), 'loss_collision:', loss_collision.item(), 'loss_thumb:', loss_thumb.item(), 'loss_tip_distance:', loss_tip_distance.item(), 'reg_loss:', reg_loss.item())
         
     # 检查路径是否存在
     if not os.path.exists(os.path.dirname(model_save_path)):

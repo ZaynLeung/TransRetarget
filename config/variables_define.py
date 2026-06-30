@@ -13,11 +13,11 @@ data_tpye = 'visionpro'
 # # 'yumi'  'linker'  'shadow' 'svhhand' 'inspire'
 # hand_brand = 'linker' 
 # hand_brand = 'svhhand'
-# hand_brand = 'shadow'
+hand_brand = 'shadow'
 # hand_brand = 'inspire'
 # hand_brand = 'g1_whole_body'
 # hand_brand = 'l20_lite_right'
-hand_brand = 'leaphand'
+# hand_brand = 'leaphand'
 
 if data_tpye == 'visionpro':
     scaling_factor = 1.0/0.061
@@ -535,7 +535,8 @@ elif hand_brand == 'linker':
    
 elif hand_brand == 'shadow':
     excluded_pairs=[(3, 4), (7, 8), (11, 12), (15, 16), (20, 21)]
-    urdf_file = "/home/ub/TransHandR/dataset/robot/shadow_hand/shadow_hand_right.urdf"
+    urdf_file = "D:\\2026\\code\\TransRetarget\\dataset\\robot\\shadow_hand\\shadow_hand_right.urdf"
+    # urdf_file = "/home/ub/TransHandR/dataset/robot/shadow_hand/shadow_hand_right.urdf"
     hand_cfg = {
         'joints_name': [
             # 腕部关节
