@@ -9,26 +9,23 @@ import torch
 data_tpye = 'visionpro'
 # data_tpye = 'slahmr'
 #### 手型配置选择
-
-# # 'yumi'  'linker'  'shadow' 'svhhand' 'inspire'
 # hand_brand = 'linker' 
+# # 'yumi'  'linker'  'shadow' 'svhhand' 'inspire'
 # hand_brand = 'svhhand'
-hand_brand = 'shadow'
-# hand_brand = 'inspire'
+# hand_brand = 'shadow'
+hand_brand = 'inspire'
 # hand_brand = 'g1_whole_body'
-# hand_brand = 'l20_lite_right'
-# hand_brand = 'leaphand'
 
 if data_tpye == 'visionpro':
-    scaling_factor = 1.0/0.061
-    # scaling_factor = 1.0
+    # scaling_factor = 1.0/0.061
+    scaling_factor = 1.0
         # 记录原始数据的特定关节索引
     # 顺序是 大拇指 , 食指 , 中指 , 无名指 , 小指
     TIP_dic = [4, 9, 14, 19, 24] # 指尖
     DIP_dic = [3, 8, 13, 18, 23] # 远端  
     PIP_dic = [2, 7, 12, 17, 22] # 近端
     MCP_dic = [1, 6, 11, 16, 21] # 掌指
-    PALM_dic = [1, 5, 10, 15, 20] # 手掌根部
+    PALM_dic = [1,5, 10, 15, 20] # 手掌根部
     source_dic = {'TIP_dic':TIP_dic, 'DIP_dic':DIP_dic, 'PIP_dic':PIP_dic, 'MCP_dic':MCP_dic, 'PALM_dic':PALM_dic}
     num_joints = 25
     hand_connections = [
@@ -40,7 +37,6 @@ if data_tpye == 'visionpro':
         (0, 20), (20, 21), (21, 22), (22, 23), (23, 24) # 小指
     ]
     keypoints ='glove_data_aligned'
-
 elif data_tpye == 'slahmr':
     # 大拇指  食指   中指   无名指   小指
     TIP_dic = [15, 3, 6, 12, 9] # 指尖
@@ -407,53 +403,51 @@ if hand_brand == 'yumi':
             'Link5',
         ],
     }
-    urdf_file = "/home/ub/TransHandR/dataset/robot/ur3/robot(ur3).urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\dataset\\robot\\ur3\\robot(ur3).urdf"
 
 elif hand_brand == 'linker':
-    urdf_file = "/home/ub/TransHandR/dataset/robot/l21_right/linkerhand_l21_right.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\l21_right\\linkerhand_l21_right.urdf"
     excluded_pairs=[(1, 2), (4, 5), (7, 8), (10, 11), (14, 15)]
-
+    TIP_dic_rb_gym = [22, 4, 8 , 12, 16]
+    # 记录机器手的特定关节索引
     TIP_dic_rb = [22, 18, 19 , 20, 21]
     DIP_dic_rb = [17, 3, 6, 9, 12]
     PIP_dic_rb = [15, 2, 5, 8, 11]
     MCP_dic_rb = [14, 1, 4, 7, 10]
-
-    rb_dic = {'TIP_dic':TIP_dic_rb, 'DIP_dic':DIP_dic_rb, 
-              'PIP_dic':PIP_dic_rb, 'MCP_dic':MCP_dic_rb}
-
     rb_dic = {'TIP_dic':TIP_dic_rb, 'DIP_dic':DIP_dic_rb, 'PIP_dic':PIP_dic_rb, 'MCP_dic':MCP_dic_rb}
     # 关节映射字典 实机使用的关节索引
     joint_map = {0: 15, 1: 2, 2: 5, 3: 8, 4: 11, 5: 14, 6: 1, 7: 4, 8: 7, 9: 10, 10: 13, 
                 11: 0, 12: 0, 13: 0, 14: 0, 15: 16, 16: 0, 17: 0, 18: 0, 19: 0,
                 20: 17, 21: 3, 22: 6, 23: 9, 24: 12}
     scaling_factor_rb = 1.0/0.064
+    # scaling_factor_rb = 1.0
     out_num_joint = 18
     hand_cfg = {
         'joints_name': [
-        'hand_base_link',  # 0 
-        'index_mcp_roll', # 1
-        'index_mcp_pitch', # 2
-        'index_pip', # 3
-        'middle_mcp_roll', # 4
-        'middle_mcp_pitch', # 5
-        'middle_pip', # 6
-        'ring_mcp_roll', # 7
-        'ring_mcp_pitch', # 8
-        'ring_pip', # 9
-        'pinky_mcp_roll', # 10
-        'pinky_mcp_pitch', # 11
-        'pinky_pip', # 12
-        'thumb_cmc_roll', # 13
-        'thumb_cmc_yaw', # 14
-        'thumb_cmc_pitch', # 15
-        'thumb_mcp', # 16
-        'thumb_ip', # 17
+        'hand_base_link', 
+        'index_mcp_roll',
+        'index_mcp_pitch',
+        'index_pip',
+        'middle_mcp_roll',
+        'middle_mcp_pitch',
+        'middle_pip',
+        'ring_mcp_roll',
+        'ring_mcp_pitch',
+        'ring_pip',
+        'pinky_mcp_roll',
+        'pinky_mcp_pitch',
+        'pinky_pip',
+        'thumb_cmc_roll',
+        'thumb_cmc_yaw',
+        'thumb_cmc_pitch',
+        'thumb_mcp',
+        'thumb_ip',
 
-        'index_tip', # 18
-        'middle_tip', # 19
-        'ring_tip', # 20
-        'pinky_tip', # 21
-        'thumb_tip' # 22
+        'index_tip',
+        'middle_tip',
+        'ring_tip',
+        'pinky_tip',
+        'thumb_tip'
     ],
     'edges': [
         ['hand_base_link', 'index_mcp_roll'],
@@ -535,8 +529,7 @@ elif hand_brand == 'linker':
    
 elif hand_brand == 'shadow':
     excluded_pairs=[(3, 4), (7, 8), (11, 12), (15, 16), (20, 21)]
-    urdf_file = "D:\\2026\\code\\TransRetarget\\dataset\\robot\\shadow_hand\\shadow_hand_right.urdf"
-    # urdf_file = "/home/ub/TransHandR/dataset/robot/shadow_hand/shadow_hand_right.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\shadow_hand\\shadow_hand_right.urdf"
     hand_cfg = {
         'joints_name': [
             # 腕部关节
@@ -632,94 +625,11 @@ elif hand_brand == 'shadow':
         [0.0, 1.5707],        # LFJ2 (lower=0.0, upper=1.57079632679)
         [0.0, 1.5707]        # LFJ1 (lower=0.0, upper=1.57079632679)
     ]
-    scaling_factor_rb = 1 / 0.064
-
-elif hand_brand == 'leaphand':
-
-    excluded_pairs = [
-        (1, 0), (0, 2), (2, 3),
-        (5, 4), (4, 6), (6, 7),
-        (9, 8), (8, 10), (10, 11),
-        (12, 13), (13, 14), (14, 15),
-    ]
-
-    urdf_file = "/home/ub/TransHandR/dataset/robot/leap_hand/right_hand/leap_hand_right.urdf"
-    
-    hand_cfg = {
-        'joints_name': [
-            'base_joint',              # 0
-            '1', '0', '2', '3',        # 食指: 1(MCP), 0(PIP), 2(DIP), 3(指尖)
-            '5', '4', '6', '7',        # 中指: 5(MCP), 4(PIP), 6(DIP), 7(指尖)
-            '9', '8', '10', '11',      # 无名指: 9(MCP), 8(PIP), 10(DIP), 11(指尖)
-            '12', '13', '14', '15',    # 拇指: 12(MCP), 13(PIP), 14(DIP), 15(指尖)
-            'index_tip',               # 17
-            'middle_tip',              # 18
-            'ring_tip',                # 19
-            'thumb_tip'                # 20
-        ],
-        'edges': [
-            ['base_joint', '1'], ['1', '0'], ['0', '2'], ['2', '3'],
-            ['3', 'index_tip'],
-            ['base_joint', '5'], ['5', '4'], ['4', '6'], ['6', '7'],
-            ['7', 'middle_tip'],
-            ['base_joint', '9'], ['9', '8'], ['8', '10'], ['10', '11'],
-            ['11', 'ring_tip'],
-            ['base_joint', '12'], ['12', '13'], ['13', '14'], ['14', '15'],
-            ['15', 'thumb_tip'],
-        ],
-        'root_name': 'base_joint',
-        'end_effectors': ['index_tip', 'middle_tip', 'ring_tip', 'thumb_tip'],
-        'elbows': ['0', '4', '8', '13']
-    }
-    
-    robot_connections = [
-        [0, 1], [1, 2], [2, 3], [3, 4], [4, 17],
-        [0, 5], [5, 6], [6, 7], [7, 8], [8, 18],
-        [0, 9], [9, 10], [10, 11], [11, 12], [12, 19],
-        [0, 13], [13, 14], [14, 15], [15, 16], [16, 20]
-    ]
-    
-    # 修正 rb_dic（FK 索引，顺序：拇指、食指、中指、无名指）
-    TIP_dic_rb = [16, 4, 8, 12]
-    DIP_dic_rb = [15, 3, 7, 11]
-    PIP_dic_rb = [14, 2, 6, 10]
-    MCP_dic_rb = [13, 1, 5, 9]
-
-    rb_dic = {'TIP_dic': TIP_dic_rb, 'DIP_dic': DIP_dic_rb, 
-              'PIP_dic': PIP_dic_rb, 'MCP_dic': MCP_dic_rb}
-    
-    scaling_factor_rb = 1.0/0.064
-    out_num_joint = 16
-    
-    # 修正 angle_limit_rob（顺序：食指、中指、无名指、拇指）
-    angle_limit_rob = [
-        # 食指: MCP('1'), PIP('0'), DIP('2'), TIP('3')
-        [-0.314, 2.23],
-        [-1.047, 1.047],
-        [-0.506, 1.885],
-        [-0.366, 2.042],
-        # 中指: MCP('5'), PIP('4'), DIP('6'), TIP('7')
-        [-0.314, 2.23],
-        [-1.047, 1.047],
-        [-0.506, 1.885],
-        [-0.366, 2.042],
-        # 无名指: MCP('9'), PIP('8'), DIP('10'), TIP('11')
-        [-0.314, 2.23],
-        [-1.047, 1.047],
-        [-0.506, 1.885],
-        [-0.366, 2.042],
-        # 拇指: MCP('12'), PIP('13'), DIP('14'), TIP('15')
-        [-0.349, 2.094],
-        [-0.47, 2.443],
-        [-1.20, 1.90],
-        [-1.34, 1.88],
-    ]
-    
-    correction_matrix = None
+    scaling_factor_rb = 4.0/5.0
 
 elif hand_brand == 'svhhand':
     excluded_pairs=[(1, 2), (5, 6), (9, 10), (13, 14), (14, 15),(15, 16)]
-    urdf_file = "/home/ub/TransHandR/dataset/robot/schunk_hand/schunk_svh_hand_right.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\schunk_hand\\schunk_svh_hand_right.urdf"
     hand_cfg = {
         'joints_name': [
             'right_hand_f4',  #0
@@ -862,7 +772,7 @@ elif hand_brand == 'svhhand':
 ]
 
 elif hand_brand == 'allegro_hand':
-    urdf_file = "/home/ub/TransHandR/dataset/robot/allegro_hand/allegro_hand_right_glb.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\allegro_hand\\allegro_hand_right_glb.urdf"
     hand_cfg = {
         'joints_name': [
             'hand_base_joint', #0
@@ -948,7 +858,7 @@ elif hand_brand == 'allegro_hand':
 
 elif hand_brand == 'inspire':
     excluded_pairs=[(1, 2), (4, 5), (7, 8), (10, 11), (14, 15)]  # 根据linker手的配置设定
-    urdf_file = "/home/ub/TransHandR/dataset/robot/inspire_view/urdf/R_inspire.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\inspire_URDF\\urdf\\R_inspire.urdf"
     
     # Inspire手的关节配置
     hand_cfg = {
@@ -1037,7 +947,7 @@ elif hand_brand == 'inspire':
     
     rb_dic = {'TIP_dic':TIP_dic_rb, 'DIP_dic':DIP_dic_rb, 'PIP_dic':PIP_dic_rb, 'MCP_dic':MCP_dic_rb}
     
-    scaling_factor_rb = 1/0.064 # 使用类似linker手的比例因子
+    scaling_factor_rb = 1  # 使用类似linker手的比例因子
     out_num_joint = 13  # 13个活动关节
     
     # Inspire Hand 的关节角度限制 (弧度)
@@ -1065,127 +975,10 @@ elif hand_brand == 'inspire':
     correction_matrix = torch.tensor([[-1, 0, 0],
                                       [0, 1 , 0],
                                       [0, 0, -1]], dtype=torch.float32)
-    
-elif hand_brand == 'l20_lite_right':
-    # L20 Lite Right 手型配置
-    urdf_file = "/home/ub/TransHandR/dataset/robot/l20_lite_right/linkerhand_l20lite_right.urdf"
-    
-    excluded_pairs = [
-    # 拇指（同一手指相邻关节）
-    (1, 2),   # thumb_cmc_yaw → thumb_cmc_pitch
-    (2, 3),   # thumb_cmc_pitch → thumb_mcp
-    (3, 4),   # thumb_mcp → thumb_ip
-    
-    # 食指（同一手指相邻关节）
-    (5, 6),   # index_mcp_roll → index_mcp_pitch
-    (6, 7),   # index_mcp_pitch → index_pip
-    (7, 8),   # index_pip → index_dip
-    
-    # 中指（同一手指相邻关节）
-    (9, 10),  # middle_mcp_pitch → middle_pip
-    (10, 11), # middle_pip → middle_dip
-    
-    # 无名指（同一手指相邻关节）
-    (12, 13), # ring_mcp_roll → ring_mcp_pitch
-    (13, 14), # ring_mcp_pitch → ring_pip
-    (14, 15), # ring_pip → ring_dip
-    
-    # 小指（同一手指相邻关节）
-    (16, 17), # pinky_mcp_roll → pinky_mcp_pitch
-    (17, 18), # pinky_mcp_pitch → pinky_pip
-    (18, 19), # pinky_pip → pinky_dip
-    ]
-
-    TIP_dic_rb = [4, 8, 11, 15, 19]   
-    DIP_dic_rb = [3, 7, 10, 14, 18] 
-    PIP_dic_rb = [2, 6, 9, 13, 17]   
-    MCP_dic_rb = [1, 5, 9, 12, 16]    
-    # model_final loss 30
-
-    rb_dic = {'TIP_dic': TIP_dic_rb, 'DIP_dic': DIP_dic_rb, 
-              'PIP_dic': PIP_dic_rb, 'MCP_dic': MCP_dic_rb}
-    
-    scaling_factor_rb = 1.0/0.064
-    out_num_joint = 20  # 20个活动关节
-    
-    # 关节角度限制（弧度）- 从 URDF 的 limit 中提取
-    angle_limit_rob = [
-        [0, 1.03],   # thumb_cmc_roll 0
-        [0, 1.40],   # thumb_cmc_yaw 1
-        [0, 0.52],   # thumb_cmc_pitch 2
-        [0, 0.72],   # thumb_mcp 3
-        [0, 0.78],   # thumb_ip 4
-        [0, 0.19],   # index_mcp_roll 5
-        [0, 1.36],   # index_mcp_pitch 6
-        [0, 1.78],   # index_pip 7
-        [0, 0.62],   # index_dip 8
-        [0, 1.36],   # middle_mcp_pitch 9
-        [0, 1.78],   # middle_pip 10
-        [0, 0.62],   # middle_dip 11
-        [0, 0.20],   # ring_mcp_roll 12
-        [0, 1.36],   # ring_mcp_pitch 13
-        [0, 1.78],   # ring_pip 14
-        [0, 0.62],   # ring_dip 15
-        [0, 0.30],   # pinky_mcp_roll 16
-        [0, 1.36],   # pinky_mcp_pitch 17
-        [0, 1.78],   # pinky_pip 18
-        [0, 0.62],   # pinky_dip 19
-    ]
-    
-    # 手部配置
-    hand_cfg = {
-        'joints_name': [
-            'thumb_cmc_roll', 'thumb_cmc_yaw', 'thumb_cmc_pitch', 'thumb_mcp', 'thumb_ip',
-            'index_mcp_roll', 'index_mcp_pitch', 'index_pip', 'index_dip',
-            'middle_mcp_pitch', 'middle_pip', 'middle_dip',
-            'ring_mcp_roll', 'ring_mcp_pitch', 'ring_pip', 'ring_dip',
-            'pinky_mcp_roll', 'pinky_mcp_pitch', 'pinky_pip', 'pinky_dip'
-        ],
-        'edges': [
-            # 拇指
-            ['hand_base_link', 'thumb_cmc_roll'],
-            ['thumb_cmc_roll', 'thumb_cmc_yaw'],
-            ['thumb_cmc_yaw', 'thumb_cmc_pitch'],
-            ['thumb_cmc_pitch', 'thumb_mcp'],
-            ['thumb_mcp', 'thumb_ip'],
-            # 食指
-            ['hand_base_link', 'index_mcp_roll'],
-            ['index_mcp_roll', 'index_mcp_pitch'],
-            ['index_mcp_pitch', 'index_pip'],
-            ['index_pip', 'index_dip'],
-            # 中指
-            ['hand_base_link', 'middle_mcp_pitch'],
-            ['middle_mcp_pitch', 'middle_pip'],
-            ['middle_pip', 'middle_dip'],
-            # 无名指
-            ['hand_base_link', 'ring_mcp_roll'],
-            ['ring_mcp_roll', 'ring_mcp_pitch'],
-            ['ring_mcp_pitch', 'ring_pip'],
-            ['ring_pip', 'ring_dip'],
-            # 小指
-            ['hand_base_link', 'pinky_mcp_roll'],
-            ['pinky_mcp_roll', 'pinky_mcp_pitch'],
-            ['pinky_mcp_pitch', 'pinky_pip'],
-            ['pinky_pip', 'pinky_dip']
-        ],
-        'root_name': 'hand_base_link',
-        'end_effectors': ['index_dip', 'middle_dip', 'ring_dip', 'pinky_dip', 'thumb_ip'],
-        'elbows': ['index_mcp_pitch', 'middle_mcp_pitch', 'ring_mcp_pitch', 'pinky_mcp_pitch', 'thumb_mcp']
-    }
-    
-    robot_connections = [
-        [0, 1], [1, 2], [2, 3], [3, 4],   # 拇指
-        [0, 5], [5, 6], [6, 7], [7, 8],   # 食指
-        [0, 9], [9, 10], [10, 11],        # 中指
-        [0, 12], [12, 13], [13, 14], [14, 15],  # 无名指
-        [0, 16], [16, 17], [17, 18], [18, 19]   # 小指
-    ]
-    
-    correction_matrix = None
 
 elif hand_brand == 'g1_whole_body':
     # 此处将人形机器人当做手来处理，关节配置和限制需要根据实际机器人进行调整
-    urdf_file = "/home/ub/TransHandR/dataset/robot/g1_wholebody/g1_29dof.urdf"
+    urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\g1_wholebody\\g1_29dof.urdf"
     # 关节配置示例，需根据实际机器人调整
     hand_cfg = {
         'joints_name': [
@@ -1305,6 +1098,9 @@ drop_path_rate = 0.1
 '''
 损失函数权重
 '''
-loss_weight = [500, 500, 10, 100, 50] # 侧摆损失，指尖损失，碰撞损失，大拇指损失，指尖距离损失
+loss_weight = [500, 500, 10, 500, 50] # 侧摆损失，指尖损失，碰撞损失，大拇指损失，指尖距离损失
+loss_weight = [500, 500, 10, 0, 50] # 侧摆损失，指尖损失，碰撞损失，大拇指损失，指尖距离损失
+# loss_weight = [0, 50, 10, 0, 10] # 侧摆损失，指尖损失，碰撞损失，大拇指损失，指尖距离损失
+# loss_weight = [500, 0, 10, 0, 50]
 
 col_threshold = 0.010

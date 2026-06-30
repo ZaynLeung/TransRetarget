@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-"""
+'''
 修改自run_poseformer.py，用于训练Retransformer
-"""
-import matplotlib
-matplotlib.use('TkAgg')  
-
+'''
+from asyncio import windows_events
 import numpy as np
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -23,12 +21,13 @@ import time
 import datetime
 import logging
 
-#####################################
+
 from config.arguments import parse_args
 from config.opt import opts
 from config.utils import *
 from config.variables_define import *
 from dataset.generators import ChunkedGenerator, UnchunkedGenerator
+#####################################
 from model.model_poseformer import *
 from model.loss import *
 
@@ -70,9 +69,9 @@ def main():
     
     # 保存模型文件
     if data_tpye == 'slahmr':
-        model_save_path = f'/home/ub/TransHandR/checkpoint/models/{data_tpye}/{hand_brand}/model_final.pth'
+        model_save_path = f'D:\\2026\\code\\TransHandR\\TransHandR\\checkpoint\\models\\{data_tpye}\\{hand_brand}\\model_final.pth'
     else:
-        model_save_path = f'/home/ub/TransHandR/checkpoint/models/{ab_experiment_name}/{hand_brand}/model_final.pth'    
+        model_save_path = f'D:\\2026\\code\\TransHandR\\TransHandR\\checkpoint\\models\\{ab_experiment_name}\\{hand_brand}\\model_final.pth'    
     # logger.info(f"数据类型: {data_tpye}")
     logger.info(f"保存模型文件: {model_save_path}")
     # logger.info(f"手的类型: {hand_brand}")
@@ -129,20 +128,22 @@ def main():
 
     pos_loss = nn.MSELoss()
     # 此处用余弦损失
-    # vec_loss = nn.CosineEmbeddingLoss()
-    vec_loss = nn.MSELoss()
+    vec_loss = nn.CosineEmbeddingLoss()
+    vec_loss = None
     # 碰撞损失网络出初始化
     # 排除0号点，并且不计算(2,3)和(5,6)这对的碰撞
-    # col_loss = CollisionLoss(
-    #     threshold=col_threshold, 
-    #     rb_dic=rb_dic,
-    #     excluded_points=[0],
-    #     excluded_pairs=excluded_pairs
-    # )
-    col_loss = None
+    col_loss = CollisionLoss(
+        threshold=col_threshold, 
+        rb_dic=rb_dic,
+        excluded_points=[0],
+        excluded_pairs=excluded_pairs
+    )
     # regularization loss
     reg_criterion = RegLoss()
     if torch.cuda.is_available():
+        # model_pos = nn.DataParallel(model_pos)
+        # model_pos = model_pos.cuda()
+        # model_pos_train = nn.DataParallel(model_pos_train)
         model_pos_train = model_pos_train.cuda()
     else:
         print('CUDA is not available, using CPU instead')
@@ -184,11 +185,13 @@ def main():
     print('** The final evaluation will be carried out after the last training epoch.')
     # return 0
 
+
+
     while epoch < args.epochs:
         # start_time = time()
         epoch_loss_3d_train = 0
         epoch_loss_traj_train = 0
-    # 本项目输入只输入3D,不需要这个loss epoch_loss_2d_train_unlabeled = 0
+    #         本项目输入只输入3D,不需要这个loss epoch_loss_2d_train_unlabeled = 0
         model_pos_train.train()
         batch_idx = 0
         for cameras_train, batch_3D_single_frame, batch_3d_pad in train_generator.next_epoch():
@@ -206,10 +209,7 @@ def main():
             # print("模型输出格式",predicted_angle.shape)
             # (frame, joint_num)
             # 为predicted_angle加五列零 以补足指尖固定关节的角度
-
-            # predicted_angle_padded = F.pad(predicted_angle, (0, 5, 0, 0), "constant", 0)
-            predicted_angle_padded = predicted_angle
-
+            predicted_angle_padded = F.pad(predicted_angle, (0, 5, 0, 0), "constant", 0)
             # print("补足后模型输出格式",predicted_angle_padded.shape)
             # 对首维取平均值
             predicted_angle_mean = predicted_angle_padded.mean(dim=0)
@@ -278,7 +278,7 @@ def main():
             '''
 
         epoch += 1
-        print('epoch:', epoch, 'loss:', loss_total.item(), 'loss_3d_vec:', loss_3d_vec.item(), 'loss_3d_pos:', loss_3d_pos.item(), 'loss_collision:', loss_collision.item(), 'loss_thumb:', loss_thumb.item(), 'loss_tip_distance:', loss_tip_distance.item(), 'reg_loss:', reg_loss.item())
+        print('epoch:', epoch,'loss_total:', loss_total.item(),'loss_3d_vec:', loss_3d_vec.item(),'loss_3d_pos:', loss_3d_pos.item(),'loss_collision:', loss_collision.item(),'loss_thumb:', loss_thumb.item(),'loss_tip_distance:', loss_tip_distance.item(),'reg_loss:', reg_loss.item())
         
     # 检查路径是否存在
     if not os.path.exists(os.path.dirname(model_save_path)):

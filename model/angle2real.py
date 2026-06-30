@@ -279,26 +279,11 @@ def parse_urdf_to_joints(urdf_file, cfg):
 
     # 构建父子关系
     joint_parents = [-1] * len(joints_name)  # 初始化为-1（表示根节点）
-    
-    # inspire hand 用这一段 linkerl21应该也是用这段
     for edge in cfg['edges']:
         parent_name, child_name = edge
         parent_idx = joints_index[parent_name]
         child_idx = joints_index[child_name]
         joint_parents[child_idx] = parent_idx
-
-    # l20_lite hand 用这一段
-    # for edge in cfg['edges']:
-    #     parent_name, child_name = edge
-
-    #     # 处理 root（不在 joints_name 中）
-    #     if parent_name == cfg.get('root_name', ''):
-    #         parent_idx = -1
-    #     else:
-    #         parent_idx = joints_index[parent_name]
-
-    #     child_idx = joints_index[child_name]
-    #     joint_parents[child_idx] = parent_idx
 
     # 获取关节偏移量和轴
     joint_offsets = []
