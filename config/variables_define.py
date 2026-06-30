@@ -975,7 +975,143 @@ elif hand_brand == 'inspire':
     correction_matrix = torch.tensor([[-1, 0, 0],
                                       [0, 1 , 0],
                                       [0, 0, -1]], dtype=torch.float32)
+elif hand_brand == 'wuji_left':
+    urdf_file = "D:\\2026\\code\\TransRetarget\\dataset\\robot\\wuji_hand\\urdf\\right.urdf"
+    # urdf_file = "/home/laiyuanchuan/projects/wuji-description/hand/body/urdf/right.urdf"
 
+    excluded_pairs = [
+    (0, 1), (1, 2), (2, 3),
+    (4, 5), (5, 6), (6, 7),
+    (8, 9), (9, 10), (10, 11),
+    (12, 13), (13, 14), (14, 15),
+    (16, 17), (17, 18), (18, 19),
+    ]
+
+
+    TIP_dic_rb = [20, 21, 22, 23, 24]
+    DIP_dic_rb = [3, 7, 11, 15, 19]
+    PIP_dic_rb = [2, 6, 10, 14, 18]
+    MCP_dic_rb = [0, 4, 8, 12, 16]
+
+
+    rb_dic = {'TIP_dic': TIP_dic_rb, 'DIP_dic': DIP_dic_rb,
+    'PIP_dic': PIP_dic_rb, 'MCP_dic': MCP_dic_rb}
+
+
+    angle_limit_rob = [
+    # finger1 拇指
+    [0.0475, 1.6033],
+    [-0.1387, 0.9324],
+    [-0.4642, 1.5623],
+    [-0.4699, 1.5568],
+    # finger2 食指
+    [-0.1585, 1.5604],
+    [-0.3700, 0.3700],
+    [-0.4777, 1.5485],
+    [-0.4683, 1.5753],
+    # finger3 中指
+    [-0.1644, 1.5516],
+    [-0.3700, 0.3700],
+    [-0.4739, 1.5512],
+    [-0.4684, 1.5745],
+    # finger4 无名指
+    [-0.1554, 1.5585],
+    [-0.3700, 0.3700],
+    [-0.4765, 1.5487],
+    [-0.4777, 1.5634],
+    # finger5 小指
+    [-0.1626, 1.5585],
+    [-0.3700, 0.3700],
+    [-0.4768, 1.5490],
+    [-0.4683, 1.5735],
+    ]
+
+
+    out_num_joint = 20
+    scaling_factor_rb = 1.0 / 0.064
+    correction_matrix = None
+
+
+    hand_cfg = {
+    'joints_name': [
+    'left_finger1_joint1', # 0
+    'left_finger1_joint2', # 1
+    'left_finger1_joint3', # 2
+    'left_finger1_joint4', # 3
+    'left_finger2_joint1', # 4
+    'left_finger2_joint2', # 5
+    'left_finger2_joint3', # 6
+    'left_finger2_joint4', # 7
+    'left_finger3_joint1', # 8
+    'left_finger3_joint2', # 9
+    'left_finger3_joint3', # 10
+    'left_finger3_joint4', # 11
+    'left_finger4_joint1', # 12
+    'left_finger4_joint2', # 13
+    'left_finger4_joint3', # 14
+    'left_finger4_joint4', # 15
+    'left_finger5_joint1', # 16
+    'left_finger5_joint2', # 17
+    'left_finger5_joint3', # 18
+    'left_finger5_joint4', # 19
+    'left_finger1_tip_fixed', # 20
+    'left_finger2_tip_fixed', # 21
+    'left_finger3_tip_fixed', # 22
+    'left_finger4_tip_fixed', # 23
+    'left_finger5_tip_fixed', # 24
+    ],
+    'edges': [
+    ['left_palm_link', 'left_finger1_joint1'],
+    ['left_finger1_joint1', 'left_finger1_joint2'],
+    ['left_finger1_joint2', 'left_finger1_joint3'],
+    ['left_finger1_joint3', 'left_finger1_joint4'],
+    ['left_finger1_joint4', 'left_finger1_tip_fixed'],
+    ['left_palm_link', 'left_finger2_joint1'],
+    ['left_finger2_joint1', 'left_finger2_joint2'],
+    ['left_finger2_joint2', 'left_finger2_joint3'],
+    ['left_finger2_joint3', 'left_finger2_joint4'],
+    ['left_finger2_joint4', 'left_finger2_tip_fixed'],
+    ['left_palm_link', 'left_finger3_joint1'],
+    ['left_finger3_joint1', 'left_finger3_joint2'],
+    ['left_finger3_joint2', 'left_finger3_joint3'],
+    ['left_finger3_joint3', 'left_finger3_joint4'],
+    ['left_finger3_joint4', 'left_finger3_tip_fixed'],
+    ['left_palm_link', 'left_finger4_joint1'],
+    ['left_finger4_joint1', 'left_finger4_joint2'],
+    ['left_finger4_joint2', 'left_finger4_joint3'],
+    ['left_finger4_joint3', 'left_finger4_joint4'],
+    ['left_finger4_joint4', 'left_finger4_tip_fixed'],
+    ['left_palm_link', 'left_finger5_joint1'],
+    ['left_finger5_joint1', 'left_finger5_joint2'],
+    ['left_finger5_joint2', 'left_finger5_joint3'],
+    ['left_finger5_joint3', 'left_finger5_joint4'],
+    ['left_finger5_joint4', 'left_finger5_tip_fixed'],
+    ],
+    'root_name': 'left_palm_link',
+    'end_effectors': [
+    'left_finger1_tip_fixed',
+    'left_finger2_tip_fixed',
+    'left_finger3_tip_fixed',
+    'left_finger4_tip_fixed',
+    'left_finger5_tip_fixed',
+    ],
+    'elbows': [
+    'left_finger1_joint2',
+    'left_finger2_joint2',
+    'left_finger3_joint2',
+    'left_finger4_joint2',
+    'left_finger5_joint2',
+    ],
+    }
+
+
+    robot_connections = [
+    [0, 1], [1, 2], [2, 3], [3, 20],
+    [4, 5], [5, 6], [6, 7], [7, 21],
+    [8, 9], [9, 10], [10, 11], [11, 22],
+    [12, 13], [13, 14], [14, 15], [15, 23],
+    [16, 17], [17, 18], [18, 19], [19, 24],
+    ]
 elif hand_brand == 'g1_whole_body':
     # 此处将人形机器人当做手来处理，关节配置和限制需要根据实际机器人进行调整
     urdf_file = "D:\\2026\\code\\TransHandR\\TransHandR\\dataset\\robot\\g1_wholebody\\g1_29dof.urdf"
