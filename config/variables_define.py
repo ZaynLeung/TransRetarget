@@ -13,8 +13,9 @@ data_tpye = 'visionpro'
 # # 'yumi'  'linker'  'shadow' 'svhhand' 'inspire'
 # hand_brand = 'svhhand'
 # hand_brand = 'shadow'
-hand_brand = 'inspire'
+# hand_brand = 'inspire'
 # hand_brand = 'g1_whole_body'
+hand_brand = 'wuji_left'
 
 if data_tpye == 'visionpro':
     # scaling_factor = 1.0/0.061
@@ -53,7 +54,8 @@ elif data_tpye == 'slahmr':
         (0, 7), (7, 8),  (8, 9) # 小指
     ]
     num_joints = 16
-    scaling_factor = 1.0/0.0647
+    # scaling_factor = 1.0/0.0647
+    scaling_factor = 1.0
     keypoints ='sign_glove_aligned'
     # 训练集键列表
     train_keys = [
@@ -976,8 +978,8 @@ elif hand_brand == 'inspire':
                                       [0, 1 , 0],
                                       [0, 0, -1]], dtype=torch.float32)
 elif hand_brand == 'wuji_left':
-    urdf_file = "D:\\2026\\code\\TransRetarget\\dataset\\robot\\wuji_hand\\urdf\\right.urdf"
-    # urdf_file = "/home/laiyuanchuan/projects/wuji-description/hand/body/urdf/right.urdf"
+    urdf_file = "D:\\2026\\code\\TransRetarget\\dataset\\robot\\wuji_hand\\urdf\\left.urdf"
+    # urdf_file = "/home/laiyuanchuan/projects/wuji-description/hand/body/urdf/left.urdf"
 
     excluded_pairs = [
     (0, 1), (1, 2), (2, 3),
@@ -1028,9 +1030,11 @@ elif hand_brand == 'wuji_left':
 
 
     out_num_joint = 20
-    scaling_factor_rb = 1.0 / 0.064
-    correction_matrix = None
-
+    scaling_factor_rb = 1.0
+    # scaling_factor_rb = 1.0 / 0.064
+    correction_matrix = torch.tensor([[-1, 0, 0],
+                                      [0, 1 , 0],
+                                      [0, 0, -1]], dtype=torch.float32)
 
     hand_cfg = {
     'joints_name': [
